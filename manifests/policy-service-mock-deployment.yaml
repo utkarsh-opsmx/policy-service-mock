@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: policy-service-mock
+  labels:
+    app: policy-service-mock
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: policy-service-mock
+  template:
+    metadata:
+      labels:
+        app: policy-service-mock
+    spec:
+      containers:
+        - name: policy-service-mock
+          image: utkarshopsmx/policy-service-mock:v0.0.4
+          ports:
+            - containerPort: 8093
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: policy-service-mock
+  labels:
+    app: policy-service-mock
+spec:
+  selector:
+    app: policy-service-mock
+  ports:
+    - protocol: TCP
+      port: 8093
+      targetPort: 8093
+  type: ClusterIP
